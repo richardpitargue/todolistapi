@@ -1,5 +1,14 @@
 import TodoItem, { TodoItemInput, TodoItemOutput } from '../models/TodoItem';
 
+export interface Filter {
+  offset: number;
+  limit: number;
+}
+export interface TodoItemOutputPaginated {
+  rows: TodoItemOutput[],
+  count: number;
+}
+
 export const create = async (payload: TodoItemInput): Promise<TodoItemOutput> => {
   const todoItem = await TodoItem.create(payload);
   return todoItem;
@@ -31,6 +40,19 @@ export const deleteById = async (id: number): Promise<boolean> => {
   return deletedTodoItem > 0;
 }
 
-export const getAll = async (): Promise<TodoItemOutput[]> => {
-  return TodoItem.findAll();
+export const getAll = async (filter?: Filter): Promise<TodoItemOutputPaginated> => {
+  console.log(filter);
+  if (!filter) {
+    const rows = await TodoItem.findAll();
+    return {
+      count: rows.length,
+      rows,
+    }
+  }
+
+  return TodoItem.findAndCountAll({
+    where: {},
+    limit: filter.limit,
+    offset: filter.offset
+  });
 }

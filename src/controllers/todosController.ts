@@ -4,7 +4,9 @@ import * as TodoItemService from '../services/TodoItemService';
 
 export const getAll = async (req: Request, res: Response) => {
   try {
-    const result = await TodoItemService.getAll();
+    const offset = Number(req.query.offset) || 0;
+    const limit = Number(req.query.limit) || 0;
+    const result = await TodoItemService.getAll(offset, limit);
     return res.json(result);
   } catch (error) {
     return res.status(500).send({ message: 'Something went wrong.' });

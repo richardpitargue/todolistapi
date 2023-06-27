@@ -8,8 +8,8 @@
     "clean": "rimraf dist/",
     "start": "npm run clean && npm run build && node dist/src/index.js",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts",
-    "test": "jest --setupFiles dotenv/config",
-    "test:coverage": "jest --coverage --setupFiles dotenv/config"
+    "test": "npm run clean && jest --setupFiles dotenv/config",
+    "test:coverage": "npm run clean && jest --coverage --setupFiles dotenv/config"
   },
   "keywords": [],
   "author": "",

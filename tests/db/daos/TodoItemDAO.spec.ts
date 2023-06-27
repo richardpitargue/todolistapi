@@ -153,6 +153,34 @@ describe('TodoItemDAO.getAll', () => {
     {
       title: 'title3',
       description: 'description3'
+    },
+    {
+      title: 'title4',
+      description: 'description4'
+    },
+    {
+      title: 'title5',
+      description: 'description5'
+    },
+    {
+      title: 'title6',
+      description: 'description6'
+    },
+    {
+      title: 'title7',
+      description: 'description7'
+    },
+    {
+      title: 'title8',
+      description: 'description8'
+    },
+    {
+      title: 'title9',
+      description: 'description9'
+    },
+    {
+      title: 'title10',
+      description: 'description10'
     }
   ];
   beforeEach(() => {
@@ -163,8 +191,35 @@ describe('TodoItemDAO.getAll', () => {
     return TodoItem.destroy({ where: {}, truncate: true });
   });
 
-  test('should return 3 items from the database', async () => {
+  test('should return 10 items from the database', async () => {
     const result = await TodoItemDAO.getAll();
-    expect(result.length === 3);
+    expect(result.count === 10);
+    expect(result.rows.length === 10);
+  });
+
+  test('should return first 5 items from the database', async () => {
+    const result = await TodoItemDAO.getAll({
+      limit: 5,
+      offset: 0
+    });
+    expect(result.count === 10);
+    expect(result.rows.length === 5);
+    for (let i = 0; i < 5; i++) {
+      expect(result.rows[i].title === items[i].title);
+      expect(result.rows[i].description === items[i].description);
+    }
+  });
+
+  test('should return items 5 to 10 from the database', async () => {
+    const result = await TodoItemDAO.getAll({
+      limit: 5,
+      offset: 5
+    });
+    expect(result.count === 10);
+    expect(result.rows.length === 5);
+    for (let i = 0; i < 5; i++) {
+      expect(result.rows[i].title === items[i+5].title);
+      expect(result.rows[i].description === items[i+5].description);
+    }
   });
 });

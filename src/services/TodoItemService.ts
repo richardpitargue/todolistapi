@@ -17,6 +17,13 @@ export const deleteById = async (id: number): Promise<boolean> => {
   return TodoItemDAO.deleteById(id);
 }
 
-export const getAll = async (): Promise<TodoItemOutput[]> => {
+export const getAll = async (offset: number, limit: number): Promise<TodoItemDAO.TodoItemOutputPaginated> => {
+  if (offset > 0 || limit > 0) {
+    return TodoItemDAO.getAll({
+      offset,
+      limit
+    });
+  }
+
   return TodoItemDAO.getAll();
 }

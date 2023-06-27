@@ -49,15 +49,31 @@ const todosRouter: Router = express.Router();
  * /api/v1/todos/:
  *   get:
  *     description: Get all to-do items in the database
+ *     parameters:
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *         description: Offset used for paginating results
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Limit used for paginating results
  *     responses:
  *       200:
  *         description: An array of to-do items
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/TodoItem'
+ *               type: object
+ *               properties:
+ *                 count:
+ *                   type: number
+ *                 rows:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/TodoItem'
  *       500:
  *         $ref: '#/components/responses/500InternalServerError' 
  */
